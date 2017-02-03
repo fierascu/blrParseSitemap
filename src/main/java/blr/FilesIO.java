@@ -126,16 +126,15 @@ public class FilesIO {
     }
 
     public static void copyDefaultImg(){
-        String defaultImgPath = ".\\src\\main\\resources\\" + DEFAULT_IMG;
         if (!isLocalFile(IMG_DIR + DEFAULT_IMG)) {
-            try (InputStream in = new URL(defaultImgPath).openStream()) {
+            try (InputStream in = FilesIO.class.getClassLoader().getResource(DEFAULT_IMG).openStream()) {
                 Files.copy(in, Paths.get(IMG_DIR + DEFAULT_IMG), StandardCopyOption.REPLACE_EXISTING);
-                log.trace(defaultImgPath + " -> " + DEFAULT_IMG);
+                log.trace(in.toString() + " -> " + DEFAULT_IMG);
             } catch (Exception e) {
                 log.error(e.getCause());
             }
         } else {
-            log.trace(defaultImgPath + " -> " + DEFAULT_IMG + " exist on localdrive. Skiping it from download.");
+            log.trace(DEFAULT_IMG + " -> " + DEFAULT_IMG + " exist on localdrive. Skiping it from download.");
         }
     }
 
