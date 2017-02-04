@@ -11,10 +11,10 @@ All the products and categories are translated in one or more languages. Transla
 
 - IntelliJ IDE,
 - Maven for dependencies,
-- Jsoup library for DOM parsing
-- Opencsv library for csv support
-- Log4j for logging
-- Google translate apis
+- Jsoup library for DOM parsing,
+- Opencsv library for csv support,
+- Log4j for logging,
+- Google translate apis.
 
 ## Installation
 
@@ -24,7 +24,7 @@ Just run it from intelliJ or maven.
 
 Used local files for multiple parsing test.
 
-## Posible future improuvments
+## Possible future improvements
 
 - More accurate translation and reduce translate bandwidth: Parse only the categories and use a dictionary to replace in products,
 - Use an external configuration file and if not found use default config.properties,
