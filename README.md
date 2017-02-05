@@ -3,9 +3,11 @@
 
 ## Synopsis
 
-This project is a java implementation o a crawler which reads one ore many sitemap.xml files, extracts products links, crawls all links and extract product data. Each parsed link is saved in an export.csv output file which can be parsed individual offline. All parsing errors are logged in errors.csv.
-With the resulted export.csv it extracts products and categories files in original site language. The images for those products are downloaded locally and then uploaded on a ftp server.
-All the products and categories are translated in one or more languages. Translated files will have language prescurtation in the name. Currently files are splitted in 3998 chunks of products.
+This project is a java implementation of a crawler which reads one or many sitemap.xml files, extracts product links, crawls all links and extracts product data.
+Each parsed link is saved in an export.csv output file which can be parsed individually offline.
+All parsing errors are logged in errors.csv. With the resulted export.csv it extracts products and category files in original site language.
+The images for those products are downloaded locally and then uploaded on an ftp server. All the products and categories are translated in one or more languages.
+Translated files will have language abbreviations in the name. Currently, files are split in 3998 chunks of products.
 
 ## Used
 
