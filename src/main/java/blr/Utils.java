@@ -85,7 +85,11 @@ public class Utils {
 
     public static void initializeProperties() {
         // set constants from properties
+
         String configPropertiesPath = ".\\src\\main\\resources\\config.properties";
+        if (!getExternalResourceFile().isEmpty()) {
+            configPropertiesPath = getExternalResourceFile();
+        }
         prop = getProperties(configPropertiesPath);
 
         // enable app features
@@ -147,6 +151,14 @@ public class Utils {
         ONLY_FOR_TESTING_PURPOSE_PRODUCTS = prop.getProperty("ONLY_FOR_TESTING_PURPOSE_PRODUCTS", "").split(",");
 
         // printProp(prop);
+    }
+
+    private static String getExternalResourceFile() {
+        String localConfigFile = WORKING_DIR + "blrParseConfig.properties";
+        if (isLocalFile(localConfigFile)) {
+            return localConfigFile;
+        }
+        return "";
     }
 
     public static Properties getProperties(String configPropertiesPath) {
