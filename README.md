@@ -8,6 +8,7 @@ Each parsed link is saved in an export.csv output file which can be parsed indiv
 All parsing errors are logged in errors.csv. With the resulted export.csv it extracts products and category files in original site language.
 The images for those products are downloaded locally and then uploaded on an ftp server. All the products and categories are translated in one or more languages.
 Translated files will have language abbreviations in the name. Currently, files are split in 3998 chunks of products.
+Can use an external configuration file and enabled features from it.
 
 ## Used
 
@@ -28,10 +29,7 @@ Used local files for multiple parsing test.
 
 ## Possible future improvements
 
-- More accurate translation and reduce translate bandwidth: Parse only the categories and use a dictionary to replace in products,
-- Use an external configuration file and if not found use default config.properties,
-- Add in configuration file which actions should be run.
-
+More accurate translation and reduce translate bandwidth: Parse only the categories and use a dictionary to replace in products.
 
 ## License
 
