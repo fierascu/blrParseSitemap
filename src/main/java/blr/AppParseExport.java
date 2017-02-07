@@ -18,17 +18,25 @@ import static blr.Utils.*;
 public class AppParseExport {
     static Logger log = Logger.getLogger(AppParseExport.class.getName());
 
-    public static void main(String[] args) {
+   public static void main(String[] args) {
         initializeProperties();
         CreatePaths();
-        ReadProduct.crawlFromSitemap();
-        pauseRandom(); // needed for stream to close
+        if (APP_FEATURE_CRAWL_SITEMAP) {
+            ReadProduct.crawlFromSitemap();
+            pauseRandom(); // needed for streams to close
+        }
         List<ProdPojo> ppl = extractProdPojos();
         writeCatsToFile(ppl, TRANS_FROM_LANG);
         writeProductsToFile(ppl, TRANS_FROM_LANG);
-        download(ppl);
-        uploadFtp();
-        translateOneProdPojoAtTime(ppl, TRANS_TO_LANG, TRANS_GOOGLE_KEY);
+        if (APP_FEATURE_DOWNLOAD_IMGS) {
+            download(ppl);
+        }
+        if (APP_FEATURE_UPLOAD_IMGS) {
+            uploadFtp();
+        }
+        if (APP_FEATURE_TRANSLATE) {
+            translateOneProdPojoAtTime(ppl, TRANS_TO_LANG, TRANS_GOOGLE_KEY);
+        }
     }
 
     public static List<ProdPojo> extractProdPojos() {

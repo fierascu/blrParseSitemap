@@ -12,7 +12,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -21,6 +20,12 @@ import java.util.concurrent.ThreadLocalRandom;
 import static blr.FilesIO.isLocalFile;
 
 public class Utils {
+    public static final String DEFAULT_IMG = "default.jpg";
+    // enable app features
+    public static Boolean APP_FEATURE_CRAWL_SITEMAP = true;
+    public static Boolean APP_FEATURE_DOWNLOAD_IMGS = true;
+    public static Boolean APP_FEATURE_UPLOAD_IMGS = true;
+    public static Boolean APP_FEATURE_TRANSLATE = true;
     // css selectors
     public static String CSS_QUERY_SKU;
     public static String CSS_QUERY_NAME;
@@ -29,8 +34,6 @@ public class Utils {
     public static String CSS_QUERY_BULL_PRICE;
     public static String CSS_QUERY_BULC_DESC;
     public static String CSS_QUERY_TABLE;
-
-
     // paths & files
     public static String WORKING_DIR = "c:\\TEMP\\";
     public static String CSV_DIR = WORKING_DIR + "exportedCsv\\";
@@ -39,8 +42,6 @@ public class Utils {
     public static String IMG_DIR = WORKING_DIR + "exportedImg\\";
     public static String SITEMAP_FILE = WORKING_DIR + "sitemap.xml";
     public static String SITEMAPS_FILES[] = {};
-    public static final String DEFAULT_IMG = "default.jpg";
-
     // variables
     public static String SEPARATOR = ";";
     public static char SEPARATOR_CHAR = SEPARATOR.charAt(0);
@@ -79,7 +80,6 @@ public class Utils {
     static Logger log = Logger.getLogger(AppParseExport.class.getName());
 
     public static void main(String[] args) {
-        // initializeProperties();
     }
 
 
@@ -87,6 +87,12 @@ public class Utils {
         // set constants from properties
         String configPropertiesPath = ".\\src\\main\\resources\\config.properties";
         prop = getProperties(configPropertiesPath);
+
+        // enable app features
+        APP_FEATURE_CRAWL_SITEMAP = Boolean.valueOf(prop.getProperty("APP_FEATURE_CRAWL_SITEMAP", String.valueOf(APP_FEATURE_CRAWL_SITEMAP)));
+        APP_FEATURE_DOWNLOAD_IMGS = Boolean.valueOf(prop.getProperty("APP_FEATURE_DOWNLOAD_IMGS", String.valueOf(APP_FEATURE_DOWNLOAD_IMGS)));
+        APP_FEATURE_UPLOAD_IMGS = Boolean.valueOf(prop.getProperty("APP_FEATURE_UPLOAD_IMGS", String.valueOf(APP_FEATURE_UPLOAD_IMGS)));
+        APP_FEATURE_TRANSLATE = Boolean.valueOf(prop.getProperty("APP_FEATURE_TRANSLATE", String.valueOf(APP_FEATURE_TRANSLATE)));
 
         // css selectors
         CSS_QUERY_SKU = prop.getProperty("CSS_QUERY_SKU");
@@ -138,7 +144,7 @@ public class Utils {
         ONLY_FOR_TESTING_PURPOSE_LIMIT = Integer.valueOf(prop.getProperty("ONLY_FOR_TESTING_PURPOSE_LIMIT", String.valueOf(ONLY_FOR_TESTING_PURPOSE_LIMIT)));
         ONLY_FOR_TESTING_PURPOSE = Boolean.valueOf(prop.getProperty("ONLY_FOR_TESTING_PURPOSE", String.valueOf(ONLY_FOR_TESTING_PURPOSE)));
         ONLY_LOCAL_PRODUCTS = Boolean.valueOf(prop.getProperty("ONLY_LOCAL_PRODUCTS", String.valueOf(ONLY_LOCAL_PRODUCTS)));
-        ONLY_FOR_TESTING_PURPOSE_PRODUCTS = prop.getProperty("ONLY_FOR_TESTING_PURPOSE_PRODUCTS","").split(",");
+        ONLY_FOR_TESTING_PURPOSE_PRODUCTS = prop.getProperty("ONLY_FOR_TESTING_PURPOSE_PRODUCTS", "").split(",");
 
         // printProp(prop);
     }
