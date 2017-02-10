@@ -10,13 +10,12 @@ import java.util.*;
 
 import static blr.CatPojo.getCategoryOrDefaultCat;
 import static blr.FilesIO.*;
-import static blr.Translate.translate;
 import static blr.Translate.translateOneProdPojoAtTime;
 import static blr.Utils.*;
 
 
-public class AppParseExport {
-    static Logger log = Logger.getLogger(AppParseExport.class.getName());
+public class App {
+    static Logger log = Logger.getLogger(App.class.getName());
 
    public static void main(String[] args) {
         initializeProperties();
@@ -47,7 +46,9 @@ public class AppParseExport {
             while ((nextLine = reader.readNext()) != null) {
                 // nextLine[] is an array of values from the line
 
-                if (isTestingWriting()) break;
+                if (isTestingWriting()) {
+                    break;
+                }
 
 //id, siteName, title, description, keywords, image, brand, price, productLink, sku, shortDesc, cats, properties, bulkDesc, bulkPrice, originalLink
 

@@ -77,7 +77,7 @@ public class Utils {
     public static boolean ONLY_LOCAL_PRODUCTS = true;
 
     public static Properties prop = null;
-    static Logger log = Logger.getLogger(AppParseExport.class.getName());
+    static Logger log = Logger.getLogger(App.class.getName());
 
     public static void main(String[] args) {
     }

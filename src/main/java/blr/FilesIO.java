@@ -23,7 +23,7 @@ import static blr.Utils.*;
 
 public class FilesIO {
 
-    static Logger log = Logger.getLogger(AppParseExport.class.getName());
+    static Logger log = Logger.getLogger(App.class.getName());
 
     public static void main(String[] args) {
         copyDefaultImg();

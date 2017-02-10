@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ReadSitemap {
 
-    static Logger log = Logger.getLogger(AppParseExport.class.getName());
+    static Logger log = Logger.getLogger(App.class.getName());
 
     public static void main(String[] args) {
     }

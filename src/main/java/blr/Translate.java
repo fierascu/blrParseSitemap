@@ -13,13 +13,13 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.*;
 
-import static blr.AppParseExport.writeCatsToFile;
-import static blr.AppParseExport.writeProductsToFile;
+import static blr.App.writeCatsToFile;
+import static blr.App.writeProductsToFile;
 import static blr.Utils.*;
 
 public class Translate {
 
-    static Logger log = Logger.getLogger(AppParseExport.class.getName());
+    static Logger log = Logger.getLogger(App.class.getName());
 
     public static void main(String[] args) throws Exception {
 
@@ -43,97 +43,6 @@ public class Translate {
         // list the translation
         log.trace(rawTranslations);
 
-    }
-
-    public static void translate(List<ProdPojo> drl, String[] toTranslatedLanguages, String KEY) {
-        // translate columns:  title, description, keywords, cats, properties, bulkDesc
-        // categories also
-        // create one long list with all the words to translate
-        // don't forget to paginate
-        List<String> allTextToTranslateL = new ArrayList<>();
-        List<String> allTextFromTranslateL = new ArrayList<>();
-        for (ProdPojo p : drl) {
-
-            // use a character to not brake the order if it's empty string
-            /*
-            if (p.getTitle() == null || p.getTitle().isEmpty()){
-                p.setTitle("-");
-            }
-            */
-            allTextToTranslateL.add(p.getTitle());
-
-            /*
-            if (p.getDescription() == null || p.getDescription().isEmpty()){
-                p.setDescription("-");
-            }
-            */
-            allTextToTranslateL.add(p.getDescription());
-
-            /*
-            if (p.getKeywords() == null || p.getKeywords().isEmpty()){
-                p.setKeywords("-");
-            }
-            */
-            allTextToTranslateL.add(p.getKeywords());
-
-            /*
-            if (p.getCats() == null || p.getCats().isEmpty()){
-                p.setCats("-");
-            }
-            */
-            allTextToTranslateL.add(p.getCats());
-
-            /*
-            if (p.getProperties() == null || p.getProperties().isEmpty()){
-                p.setProperties("-");
-            }
-            */
-            allTextToTranslateL.add(p.getProperties());
-
-            /*
-            if (p.getBulkDesc() == null || p.getBulkDesc().isEmpty()){
-                p.setBulkDesc("-");
-            }
-            */
-            allTextToTranslateL.add(p.getBulkDesc());
-        }
-
-        Map<String, List<String>> translatedText = new HashMap<>();
-        translatedText = getTranslation(toTranslatedLanguages, allTextToTranslateL, KEY);
-
-
-        for (Map.Entry<String, List<String>> entry : translatedText.entrySet()) {
-            String l = entry.getKey();
-            List<String> pl = entry.getValue();
-            //log.trace(entry.getKey() + "/" + entry.getValue());
-
-            int noOfColumnsOnPage = 6;
-            if (pl.size() != drl.size() * noOfColumnsOnPage) {
-                log.error("Translate size is different from input size. Keeping original text.");
-            } else {
-                int contor = 0;
-                //title, description, keywords, cats, properties, bulkDesc = 6
-                while (contor < pl.size()) {
-                    for (ProdPojo p : drl) {
-                        p.setTitle(cleanDesc(pl.get(contor))); // get(0)
-                        p.setDescription(trim(cleanDesc(pl.get(++contor)), 3000)); //get(1)
-                        p.setKeywords(cleanDesc(pl.get(++contor)));
-                        p.setCats(cleanDesc(pl.get(++contor)));
-                        p.setProperties(cleanDesc(pl.get(++contor)));
-                        p.setBulkDesc(cleanDesc(pl.get(++contor)));
-
-                        // fill the others columns
-                        p.setShortDesc(trim(cleanDesc(p.getDescription()), 150));
-                        // increase pagination
-                        contor++;
-                    }
-                }
-
-                // write files for each languages
-                writeCatsToFile(drl, l);
-                writeProductsToFile(drl, l);
-            }
-        }
     }
 
 
@@ -205,9 +114,8 @@ public class Translate {
         HttpTransport httpTransport = null;
         try {
             httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        } catch (GeneralSecurityException e) {
-            log.error(e);
-        } catch (IOException e) {
+        } catch (GeneralSecurityException | IOException e) {
+            isError = true;
             log.error(e);
         }
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -223,6 +131,7 @@ public class Translate {
             try {
                 translatedTexts = translate.translations().list(textToTranslate, lang).execute().getTranslations();
             } catch (IOException e) {
+                isError = true;
                 log.error(e);
                 if (e.getMessage().startsWith("403 Forbidden")) {
                     log.error("SETUP GOOGLE TRANSLATE ACCOUNT!");
@@ -237,7 +146,7 @@ public class Translate {
 
                 for (TranslationsResource transRes : translatedTexts) {
                     String transText = transRes.getTranslatedText();
-                    // log.trace(transText);
+                    log.trace(transText);
                     returnedTranslatedText.add(transText);
                 }
                 returnedMap.put(lang, returnedTranslatedText);
