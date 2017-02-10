@@ -19,9 +19,11 @@ Can use an external configuration file and enabled features from it.
 - Log4j for logging,
 - Google translate apis.
 
-## Installation
+## Installation and build
 
-Just run it from intelliJ or maven.
+Just run it from intelliJ or use  maven "package" target.
+Use "java -jar target/blrParseSitemap-1.0-SNAPSHOT-jar-with-dependencies.jar
+" to run resulted fat jar.
 
 ## Tests
 
