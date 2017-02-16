@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.*;
 
-import static blr.App.writeCatsToFile;
+import static blr.App.prepareCats;
 import static blr.App.writeProductsToFile;
 import static blr.Utils.*;
 
@@ -45,6 +45,14 @@ public class Translate {
 
     }
 
+    public static void translateCats(List<ProdPojo> drl, String[] toTranslateLanguages, String KEY){
+        /*
+        1. get unique cats
+        2. get translated values in multimap
+        3. return translated
+        4. in transProd, search and repace from dictionary
+         */
+    }
 
     public static void translateOneProdPojoAtTime(List<ProdPojo> drl, String[] toTranslatedLanguages, String KEY) {
         /*
@@ -67,7 +75,7 @@ public class Translate {
             oneProdToTranslate.add(p.getTitle());
             oneProdToTranslate.add(p.getDescription());
             oneProdToTranslate.add(p.getKeywords());
-            oneProdToTranslate.add(p.getCats());
+            // oneProdToTranslate.add(p.getCats()); //dont' translate cats
             oneProdToTranslate.add(p.getProperties());
             oneProdToTranslate.add(p.getBulkDesc());
 
@@ -77,13 +85,14 @@ public class Translate {
                 List<String> pl = entry.getValue();
 
                 int contor = 0;
-                ProdPojo newTrasProd = ProdPojo.newInstance(p,
-                        pl.get(contor), // get(0)
-                        pl.get(++contor), // get(1)
-                        pl.get(++contor), // get(2)
-                        pl.get(++contor), // get(3)
-                        pl.get(++contor), // get(4)
-                        pl.get(++contor) // get(5)
+                ProdPojo newTrasProd = ProdPojo.newInstance(
+                        p, //oldProd
+                        pl.get(contor), // get(0) = title
+                        pl.get(++contor), // get(1) = description
+                        pl.get(++contor), // get(2) = keywords
+                        pl.get(++contor), // get(3) = cats // replace this with categories from dictionary
+                        pl.get(++contor), // get(4) = properties
+                        pl.get(++contor) // get(5) = bulkDesc
                 );
 
                 log.trace("translated text: " + pl.toString());
@@ -98,7 +107,7 @@ public class Translate {
             List<ProdPojo> pl = entry.getValue();
 
             // write files for each languages
-            writeCatsToFile(pl, l);
+            prepareCats(pl, l);
             writeProductsToFile(pl, l);
         }
     }

@@ -25,7 +25,7 @@ public class App {
             pauseRandom(); // needed for streams to close
         }
         List<ProdPojo> ppl = extractProdPojos();
-        writeCatsToFile(ppl, TRANS_FROM_LANG);
+        prepareCats(ppl, TRANS_FROM_LANG);
         writeProductsToFile(ppl, TRANS_FROM_LANG);
         if (APP_FEATURE_DOWNLOAD_IMGS) {
             download(ppl);
@@ -131,7 +131,7 @@ public class App {
         return drl;
     }
 
-    public static void writeCatsToFile(List<ProdPojo> drl, String language) {
+    public static void prepareCats(List<ProdPojo> drl, String language) {
         log.info("Received a list of lines of " + drl.size() + " categories from the products");
         //create categories
         List<CatPojo> cats = new ArrayList<>();
@@ -143,9 +143,13 @@ public class App {
                 uniqueCats.add(dr.getCats());
             }
         }
-        cats.addAll(extractCats(uniqueCats));
+        cats.addAll(getUniqueCats(uniqueCats));
 
-        //write categories to file
+        //write categories to file for original language
+        writeCatsToFile(cats, language);
+    }
+
+    public static void writeCatsToFile(List<CatPojo> cats, String language) {
         String outputCsvCat = CSV_DIR + "Categories_" + language + "_" + getTimestamp() + ".csv";
         String headerResultCat = "id;Active (0/1);Name*;Parent Category;Root category (0/1);description;Meta-title;Meta-keywords;Meta-description;URL rewritten;Image URL;ID ou nom de la boutique";
         try (CSVWriter writer = new CSVWriter(new FileWriter(outputCsvCat), SEPARATOR_CHAR, QUOTE_CHAR)) {
@@ -264,8 +268,8 @@ public class App {
     }
 
 
-    private static Collection<? extends CatPojo> extractCats(Set<String> uniqueCats) {
-        int noCats = 1000; // starting number for category id
+    private static Collection<? extends CatPojo> getUniqueCats(Set<String> uniqueCats) {
+        int noCats = CATEGORY_ID_START_NO; // starting number for category id
         List<CatPojo> cats = new ArrayList<>();
         CatPojo newLabelCat = new CatPojo(noCats++ + "", OTHERS_DEFAULT_CATEGORY_NAME, PARENT_HOME_CATEGORY_NAME, "0");
         cats.add(newLabelCat);

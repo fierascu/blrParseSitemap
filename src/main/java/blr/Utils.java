@@ -20,7 +20,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import static blr.FilesIO.isLocalFile;
 
 public class Utils {
-    public static final String DEFAULT_IMG = "default.jpg";
     // enable app features
     public static Boolean APP_FEATURE_CRAWL_SITEMAP = true;
     public static Boolean APP_FEATURE_DOWNLOAD_IMGS = true;
@@ -54,6 +53,8 @@ public class Utils {
     public static boolean USE_RANDOM_WAIT = true;
     public static int USE_RANDOM_WAIT_LIMIT = 3000;
     public static String QUANTITY_STOCK = "1000";
+    public static String DEFAULT_IMG = "default.jpg";
+    public static int CATEGORY_ID_START_NO = 1000;
 
     // ftp
     public static int FTP_PORT = 21;
@@ -128,6 +129,8 @@ public class Utils {
         PARENT_HOME_CATEGORY_NAME = prop.getProperty("PARENT_HOME_CATEGORY_NAME", PARENT_HOME_CATEGORY_NAME);
         OTHERS_DEFAULT_CATEGORY_NAME = prop.getProperty("OTHERS_DEFAULT_CATEGORY_NAME", OTHERS_DEFAULT_CATEGORY_NAME);
         QUANTITY_STOCK = (prop.getProperty("QUANTITY_STOCK", QUANTITY_STOCK));
+        DEFAULT_IMG = (prop.getProperty("DEFAULT_IMG", DEFAULT_IMG));
+        CATEGORY_ID_START_NO = Integer.valueOf(prop.getProperty("CATEGORY_ID_START_NO", String.valueOf(CATEGORY_ID_START_NO)));
 
         // ftp
         FTP_SERVER = prop.getProperty("FTP_SERVER");
